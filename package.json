@@ -1,0 +1,22 @@
+{
+  "name": "ibushaktest",
+  "version": "1.0.0",
+  "description": "Ibushak Test Backend NodeJs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David Raygosa",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.7",
+    "node-fetch": "^3.0.0",
+    "swagger-ui-express": "^4.1.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}

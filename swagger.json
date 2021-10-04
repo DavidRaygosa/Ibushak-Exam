@@ -1,0 +1,180 @@
+{
+  "_comment1_": "----------------- SWAGGER INFO ------------------",
+
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "[Swagger] IBUSHAK API",
+    "description": "API Application definitions",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3700/api",
+  "tags": [
+    {
+      "name": "MercadoLibre API",
+      "description": "API for get MercadoLibre's articles in CellPhones Category"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "authorization",
+      "in": "header"
+    }
+  },
+
+  "_comment2_": "----------------- COMPONENTS ------------------",
+
+  "components": {        
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+
+  "_comment3_": "----------------- PATHS ------------------",
+
+  "paths": {
+
+    "/mlapi": {
+      "get": {
+        "tags": ["MercadoLibre API"],
+        "summary": "Get all list",
+        "description": "Get custom list of articles from lower price to higher, or 1000 articles for default. (BE CAREFUL IF YOU RUN MORE THAN 200 ARTICLES IN SWAGGER. {LAG}).",
+        "parameters": [
+          {
+            "name": "articles",
+            "in": "query",
+            "description": "Param that we need to articles custom list",
+            "type": "number"
+          },
+          {
+            "name": "short",
+            "in": "query",
+            "description": "Param that we need to short model",
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Got Successfully!",
+            "schema": {
+              "$ref": "#/definitions/MLDTO"
+            }
+          }
+        }
+      }
+    },
+
+    "/mlapi/{page}": {
+      "get": {
+        "tags": ["MercadoLibre API"],
+        "summary": "Get 50 articles filtered per page",
+        "description": "Get 50 articles filtered per page from lower price to higher. (MAX PAGE -> 1000)",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "description": "Param that we need to give you the page that you wish",
+            "type": "number"
+          },
+          {
+            "name": "short",
+            "in": "query",
+            "description": "Param that we need to short model",
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Got Successfully!",
+            "schema": {
+              "$ref": "#/definitions/MLDTO"
+            }
+          },
+          "403": {
+            "description": "Operation forbidden!",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    }
+
+  },
+    
+  "_comment4_": "----------------- definitions ------------------",
+
+  "definitions": {
+
+    "MLDTO": {
+      "properties":{
+        "MeliID":{"type": "string", "format": "string", "uniqueItems": true},
+        "SiteID": {"type": "string", "format": "string", "uniqueItems": true},
+        "Title": {"type": "string", "format": "string"},
+        "SellerID": {"type": "string", "format": "string", "uniqueItems": true},
+        "SellerName": {"type": "string", "format": "string"},
+        "Price": {"type": "number", "format": "number"},
+        "Available_quantity": {"type": "number", "format": "number"},
+        "Link": {"type": "string", "format": "string"},
+        "SellerDirection": {"type": "string", "format": "string"},
+        "Shipping":{"type": "array","format": "array","$ref": "#/definitions/ShippingModel"},
+        "Attributes":{"type": "array","format": "array","$ref": "#/definitions/AttributesModel"}
+      }
+    },
+
+    "MLDTOShort":{
+      "properties":{
+        "SellerID":{"type": "string", "format": "string", "uniqueItems": true},
+        "SellerName": {"type": "string", "format": "string"},
+        "Marca": {"type": "string", "format": "string"},
+        "free_shipping": {"type": "boolean", "format": "boolean"},
+        "logistic_type": {"type": "string", "format": "string"},
+        "seller_operation": {"type": "string", "format": "string"},
+        "condition": {"type": "string", "format": "string"},
+        "Prices": {"type": "array", "format": "array"}
+      }
+    },
+
+    "ShippingModel":{
+      "properties":{
+        "free_shipping":{"type": "boolean", "format": "boolean"},
+        "logistic_type": {"type": "string", "format": "string"}
+      }
+    },
+
+    "AttributesModel":{
+      "properties":{
+        "value_name":{"type": "string", "format": "string"},
+        "values":{"type": "array","format": "array","$ref": "#/definitions/ValuesModel"}
+      }
+    },
+
+    "ValuesModel":{
+      "properties":{
+        "id":{"type": "number", "format": "number", "uniqueItems": true},
+        "name":{"type": "string","format": "string"},
+        "struct":{"type": "string","format": "string"},
+        "source":{"type": "number","format": "number"}
+      }
+    },
+
+    "Response": {
+      "properties":{
+        "status":{"type": "string", "format": "string"}
+      }
+    }
+
+  }
+}
